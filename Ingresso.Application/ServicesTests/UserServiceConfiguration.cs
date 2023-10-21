@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Ingresso.Application.DTOs.Validations.Interfaces;
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Ingresso.Domain.Repositories;
@@ -14,6 +15,7 @@ namespace Ingresso.Application.ServicesTests
         public Mock<IUnitOfWork> UnitOfWorkMock { get; }
         public Mock<IUserPermissionService> UserPermissionServiceMock { get; }
         public Mock<IPasswordHasherWrapper> PasswordHasherGeneratorMock { get; }
+        public Mock<IUserCreateDTOValidator> UserCreateDTOValidator { get; }
 
         public UserServiceConfiguration()
         {
@@ -23,6 +25,7 @@ namespace Ingresso.Application.ServicesTests
             UnitOfWorkMock = new Mock<IUnitOfWork>();
             UserPermissionServiceMock = new Mock<IUserPermissionService>();
             PasswordHasherGeneratorMock = new Mock<IPasswordHasherWrapper>();
+            UserCreateDTOValidator = new Mock<IUserCreateDTOValidator>();
         }
     }
 }

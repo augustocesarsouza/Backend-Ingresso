@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
+using FluentValidation.Results;
+using Ingresso.Application.DTOs.Validations.Interfaces;
 
 namespace Ingresso.Application.DTOs.Validations.UserValidator
 {
-    public class UserCreateDTOValidator : AbstractValidator<UserDto>
+    public class UserCreateDTOValidator : AbstractValidator<UserDto>, IUserCreateDTOValidator
     {
         public UserCreateDTOValidator()
         {
@@ -41,6 +43,11 @@ namespace Ingresso.Application.DTOs.Validations.UserValidator
                 .NotNull()
                 .Length(7, 20)
                 .WithMessage("The password must contain a minimum of 7 characters and a maximum of 20");
+        }
+
+        public ValidationResult ValidateUserDto(UserDto userDto)
+        {
+            return Validate(userDto);
         }
     }
 }

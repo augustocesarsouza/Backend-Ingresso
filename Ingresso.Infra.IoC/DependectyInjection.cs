@@ -1,4 +1,6 @@
-﻿using Ingresso.Application.Mappings;
+﻿using Ingresso.Application.DTOs.Validations.Interfaces;
+using Ingresso.Application.DTOs.Validations.UserValidator;
+using Ingresso.Application.Mappings;
 using Ingresso.Application.Services;
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
@@ -31,6 +33,7 @@ namespace Ingresso.Infra.IoC
             services.AddAutoMapper(typeof(DomainToDtoMapping));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPasswordHasherWrapper, PasswordHasherWrapper>();
+            services.AddScoped<IUserCreateDTOValidator, UserCreateDTOValidator>();
             services.AddScoped<IUserPermissionService, UserPermissionService>();
             return services;
         }
