@@ -1,5 +1,4 @@
-﻿using Ingresso.Domain;
-using Ingresso.Domain.Entities;
+﻿using Ingresso.Domain.Entities;
 using Xunit;
 
 namespace Ingresso.Domain.EntitiesTest

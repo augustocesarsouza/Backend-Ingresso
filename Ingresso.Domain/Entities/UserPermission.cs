@@ -15,23 +15,18 @@
 
         public UserPermission(int id, int? userId, Permission permission)
         {
+            Validator(id, userId, permission);
+        }
+
+        public void Validator(int id, int? userId, Permission? permission)
+        {
+            DomainValidationException.When(id <= 0, "Id do Usuario Should be informed");
+            DomainValidationException.When(userId <= 0, "userId do Usuario Should be informed");
+            DomainValidationException.When(permission == null, "permission cannot be null");
+
             Id = id;
             UserId = userId;
             Permission = permission;
         }
-
-        //public UserPermission(int userId, int permissionId)
-        //{
-        //    Validator(userId, permissionId);
-        //}
-
-        //public void Validator(int userId, int permissionId)
-        //{
-        //    DomainValidationException.When(userId <= 0, "Id do Usuario Should be informed");
-        //    DomainValidationException.When(permissionId <= 0, "Id da Permissão Should be informed");
-
-        //    UserId = userId;
-        //    PermissionId = permissionId;
-        //}
     }
 }
