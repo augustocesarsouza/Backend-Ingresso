@@ -84,6 +84,9 @@ namespace Ingresso.Application.Services
 
                 var token = _tokenGenerator.Generator(user, userPermissions);
 
+                if (token == null)
+                    return ResultService.Fail<UserDto>("error create token");
+
                 try
                 {
                     await _unitOfWork.BeginTransaction();
@@ -114,6 +117,9 @@ namespace Ingresso.Application.Services
                 var userPermissions = _mapper.Map<ICollection<UserPermission>>(permission.Data);
 
                 var token = _tokenGenerator.Generator(user, userPermissions);
+
+                if (token == null)
+                    return ResultService.Fail<UserDto>("error create token");
 
                 try
                 {

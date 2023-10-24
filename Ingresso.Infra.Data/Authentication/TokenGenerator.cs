@@ -9,7 +9,7 @@ namespace Ingresso.Infra.Data.Authentication
 {
     public class TokenGenerator : ITokenGenerator
     {
-        public TokenOutValue Generator(User user, ICollection<UserPermission> userPermissions)
+        public TokenOutValue? Generator(User user, ICollection<UserPermission> userPermissions)
         {
             var permission = string.Join(",", userPermissions.Select(x => x.Permission?.PermissionName));
             var claims = new List<Claim>
@@ -29,7 +29,17 @@ namespace Ingresso.Infra.Data.Authentication
                 claims: claims);
 
             var token = new JwtSecurityTokenHandler().WriteToken(tokenData);
-            return new TokenOutValue(token, expires);
+            var tokenValue = new TokenOutValue();
+            var sucessfullyCreatedToken = tokenValue.ValidateToken(token, expires);
+
+            if (sucessfullyCreatedToken)
+            {
+                return tokenValue;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

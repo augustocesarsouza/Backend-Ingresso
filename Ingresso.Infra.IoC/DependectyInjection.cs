@@ -32,9 +32,9 @@ namespace Ingresso.Infra.IoC
         {
             services.AddAutoMapper(typeof(DomainToDtoMapping));
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserPermissionService, UserPermissionService>();
             services.AddScoped<IPasswordHasherWrapper, PasswordHasherWrapper>();
             services.AddScoped<IUserCreateDTOValidator, UserCreateDTOValidator>();
-            services.AddScoped<IUserPermissionService, UserPermissionService>();
             return services;
         }
     }
