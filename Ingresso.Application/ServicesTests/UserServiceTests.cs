@@ -5,6 +5,7 @@ using Ingresso.Domain.Entities;
 using Moq;
 using Xunit;
 using FluentValidation.Results;
+using Ingresso.Domain.InfoErrors;
 
 namespace Ingresso.Application.ServicesTests
 {
@@ -19,7 +20,8 @@ namespace Ingresso.Application.ServicesTests
 
             var userService = new UserService(
                 _configuration.UserRepositoryMock.Object,
-                _configuration.TokenGeneratorMock.Object,
+                _configuration.TokenGeneratorEmailMock.Object,
+                _configuration.TokenGeneratorCpfMock.Object,
                 _configuration.MapperMock.Object,
                 _configuration.UnitOfWorkMock.Object,
                 _configuration.UserPermissionServiceMock.Object,
@@ -169,8 +171,8 @@ namespace Ingresso.Application.ServicesTests
             var tokenValue = new TokenOutValue();
             tokenValue.ValidateToken("sdfvsdfvsdfvsd", DateTime.Now.AddDays(1));
 
-            _configuration.TokenGeneratorMock.Setup
-                (tok => tok.Generator(It.IsAny<User>(), It.IsAny<ICollection<UserPermission>>())).Returns(tokenValue);
+            _configuration.TokenGeneratorEmailMock.Setup
+                (tok => tok.Generator(It.IsAny<User>(), It.IsAny<ICollection<UserPermission>>(), It.IsAny<string>())).Returns(InfoErrors.Ok(tokenValue));
 
             var result = await _userService.Login("test@gmail.com", "Augusto92349923");
             Assert.True(result.IsSucess);
@@ -223,8 +225,10 @@ namespace Ingresso.Application.ServicesTests
             _configuration.UserPermissionServiceMock.Setup
                 (ser => ser.GetAllPermissionUser(It.IsAny<int>())).ReturnsAsync(ResultService.Ok(new List<UserPermissionDTO>()));
 
-            _configuration.TokenGeneratorMock.Setup
-                (tok => tok.Generator(It.IsAny<User>(), It.IsAny<ICollection<UserPermission>>())).Returns((TokenOutValue?)null);
+            _configuration.TokenGeneratorEmailMock.Setup
+                (tok => tok.Generator
+                (It.IsAny<User>(),
+                It.IsAny<ICollection<UserPermission>>(), It.IsAny<string>())).Returns(InfoErrors.Fail(new TokenOutValue(), "erro"));
 
             var result = await _userService.Login("augusto@gmail.com", "Augusto92349923");
             Assert.False(result.IsSucess);
@@ -248,9 +252,8 @@ namespace Ingresso.Application.ServicesTests
             var tokenValue = new TokenOutValue();
             tokenValue.ValidateToken("sdfvsdfvsdfvsd", DateTime.Now.AddDays(1));
 
-
-            _configuration.TokenGeneratorMock.Setup
-                (tok => tok.Generator(It.IsAny<User>(), It.IsAny<ICollection<UserPermission>>())).Returns(tokenValue);
+            _configuration.TokenGeneratorCpfMock.Setup
+                 (tok => tok.Generator(It.IsAny<User>(), It.IsAny<ICollection<UserPermission>>(), It.IsAny<string>())).Returns(InfoErrors.Ok(tokenValue));
 
             var result = await _userService.Login("88888888888", "Augusto92349923");
             Assert.True(result.IsSucess);
@@ -306,8 +309,10 @@ namespace Ingresso.Application.ServicesTests
             var tokenValue = new TokenOutValue();
             tokenValue.ValidateToken("sdfvsdfvsdfvsd", DateTime.Now.AddDays(1));
 
-            _configuration.TokenGeneratorMock.Setup
-                (tok => tok.Generator(It.IsAny<User>(), It.IsAny<ICollection<UserPermission>>())).Returns((TokenOutValue?)null);
+            _configuration.TokenGeneratorCpfMock.Setup
+                 (tok => tok.Generator
+                 (It.IsAny<User>(),
+                 It.IsAny<ICollection<UserPermission>>(), It.IsAny<string>())).Returns(InfoErrors.Fail(new TokenOutValue(), "erro"));
 
             var result = await _userService.Login("88888888888", "Augusto92349923");
             Assert.False(result.IsSucess);

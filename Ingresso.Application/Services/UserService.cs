@@ -13,7 +13,8 @@ namespace Ingresso.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly ITokenGenerator _tokenGenerator;
+        private readonly ITokenGeneratorEmail _tokenGeneratorEmail;
+        private readonly ITokenGeneratorCpf _tokenGeneratorCpf;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserPermissionService _userPermissionService;
@@ -21,12 +22,13 @@ namespace Ingresso.Application.Services
         private readonly IUserCreateDTOValidator _userCreateDTOValidator;
 
         public UserService(
-            IUserRepository userRepository, ITokenGenerator tokenGenerator,
+            IUserRepository userRepository, ITokenGeneratorEmail tokenGeneratorEmail, ITokenGeneratorCpf tokenGeneratorCpf,
             IMapper mapper, IUnitOfWork unitOfWork, IUserPermissionService userPermissionService,
             IPasswordHasherWrapper passwordHasher, IUserCreateDTOValidator userCreateDTOValidator)
         {
             _userRepository = userRepository;
-            _tokenGenerator = tokenGenerator;
+            _tokenGeneratorEmail = tokenGeneratorEmail;
+            _tokenGeneratorCpf = tokenGeneratorCpf;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userPermissionService = userPermissionService;
@@ -80,17 +82,21 @@ namespace Ingresso.Application.Services
                     return ResultService.Fail<UserDto>("password is not valid");
 
                 var permission = await _userPermissionService.GetAllPermissionUser(user.Id);
+
+                if (!permission.IsSucess)
+                    return ResultService.Fail<UserDto>("user does not have permission");
+
                 var userPermissions = _mapper.Map<ICollection<UserPermission>>(permission.Data);
 
-                var token = _tokenGenerator.Generator(user, userPermissions);
+                var token = _tokenGeneratorEmail.Generator(user, userPermissions, password);
 
-                if (token == null)
-                    return ResultService.Fail<UserDto>("error create token");
+                if (!token.IsSucess)
+                    return ResultService.Fail<UserDto>(token.Message ?? "error validate token");
 
                 try
                 {
                     await _unitOfWork.BeginTransaction();
-                    user.ValidatorToken(token.Acess_Token ?? "");
+                    user.ValidatorToken(token.Data.Acess_Token ?? "");
                     await _unitOfWork.Commit();
                     return ResultService.Ok(_mapper.Map<UserDto>(user));
                 }
@@ -116,15 +122,15 @@ namespace Ingresso.Application.Services
 
                 var userPermissions = _mapper.Map<ICollection<UserPermission>>(permission.Data);
 
-                var token = _tokenGenerator.Generator(user, userPermissions);
+                var token = _tokenGeneratorCpf.Generator(user, userPermissions, password);
 
-                if (token == null)
-                    return ResultService.Fail<UserDto>("error create token");
+                if (!token.IsSucess)
+                    return ResultService.Fail<UserDto>(token.Message ?? "error validate token");
 
                 try
                 {
                     await _unitOfWork.BeginTransaction();
-                    user.ValidatorToken(token.Acess_Token ?? ""); //Simular execão
+                    user.ValidatorToken(token.Data.Acess_Token ?? ""); //Simular execão
                     await _unitOfWork.Commit();
                     return ResultService.Ok(_mapper.Map<UserDto>(user));
                 }

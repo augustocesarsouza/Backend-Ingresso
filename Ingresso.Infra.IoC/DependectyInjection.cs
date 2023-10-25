@@ -22,7 +22,8 @@ namespace Ingresso.Infra.IoC
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
-            services.AddScoped<ITokenGenerator, TokenGenerator>();
+            services.AddScoped<ITokenGeneratorEmail, TokenGeneratorEmail>();
+            services.AddScoped<ITokenGeneratorCpf, TokenGeneratorCpf>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

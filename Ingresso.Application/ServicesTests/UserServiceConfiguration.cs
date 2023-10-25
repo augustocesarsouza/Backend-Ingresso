@@ -10,7 +10,8 @@ namespace Ingresso.Application.ServicesTests
     public class UserServiceConfiguration
     {
         public Mock<IUserRepository> UserRepositoryMock { get; }
-        public Mock<ITokenGenerator> TokenGeneratorMock { get; }
+        public Mock<ITokenGeneratorEmail> TokenGeneratorEmailMock { get; }
+        public Mock<ITokenGeneratorCpf> TokenGeneratorCpfMock { get; }
         public Mock<IMapper> MapperMock { get; }
         public Mock<IUnitOfWork> UnitOfWorkMock { get; }
         public Mock<IUserPermissionService> UserPermissionServiceMock { get; }
@@ -20,7 +21,8 @@ namespace Ingresso.Application.ServicesTests
         public UserServiceConfiguration()
         {
             UserRepositoryMock = new Mock<IUserRepository>();
-            TokenGeneratorMock = new Mock<ITokenGenerator>();
+            TokenGeneratorEmailMock = new Mock<ITokenGeneratorEmail>();
+            TokenGeneratorCpfMock = new Mock<ITokenGeneratorCpf>();
             MapperMock = new Mock<IMapper>();
             UnitOfWorkMock = new Mock<IUnitOfWork>();
             UserPermissionServiceMock = new Mock<IUserPermissionService>();

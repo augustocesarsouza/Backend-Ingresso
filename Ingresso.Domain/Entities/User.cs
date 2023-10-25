@@ -23,10 +23,12 @@
             Name = name;
         }
 
-        public User(int id, string? name, string? passwordHash, string? email) : this(id, name)
+        public User(int id, string? email, string? cpf, string? passwordHash)
         {
-            PasswordHash = passwordHash;
+            Id = id;
             Email = email;
+            Cpf = cpf;
+            PasswordHash = passwordHash;
         }
 
         public void ValidatorToken(string token)

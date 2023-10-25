@@ -29,7 +29,7 @@ namespace Ingresso.Infra.Data.Repositories
             var user = await _context
                 .Users
                 .Where(u => u.Email == email)
-                .Select(x => new User(x.Id, x.Name, x.PasswordHash, x.Email))
+                .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash))
                 .FirstOrDefaultAsync();
 
             return user;
@@ -40,6 +40,7 @@ namespace Ingresso.Infra.Data.Repositories
             var user = await _context
                 .Users
                 .Where(u => u.Cpf == cpf)
+                .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash))
                 .FirstOrDefaultAsync();
 
             return user;
