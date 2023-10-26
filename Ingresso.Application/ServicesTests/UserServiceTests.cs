@@ -166,7 +166,7 @@ namespace Ingresso.Application.ServicesTests
                 (pass => pass.Verify(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<short>(), It.IsAny<int>(), It.IsAny<char>(), It.IsAny<string>())).Returns(true);
 
             _configuration.UserPermissionServiceMock.Setup
-                (ser => ser.GetAllPermissionUser(It.IsAny<int?>())).ReturnsAsync(new ResultService<List<UserPermissionDTO>>());
+                (ser => ser.GetAllPermissionUser(It.IsAny<int?>())).ReturnsAsync(ResultService.Ok(new List<UserPermissionDTO>()));
 
             var tokenValue = new TokenOutValue();
             tokenValue.ValidateToken("sdfvsdfvsdfvsd", DateTime.Now.AddDays(1));

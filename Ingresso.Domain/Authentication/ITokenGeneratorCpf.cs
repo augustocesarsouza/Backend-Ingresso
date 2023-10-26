@@ -5,6 +5,6 @@ namespace Ingresso.Domain.Authentication
 {
     public interface ITokenGeneratorCpf
     {
-        InfoErrors<TokenOutValue> Generator(User user, ICollection<UserPermission> userPermissions, string password);
+        InfoErrors<TokenOutValue> Generator(User user, ICollection<UserPermission> userPermissions, string? password);
     }
 }

@@ -5,7 +5,8 @@
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<StartupObject>Ingresso.Api.Program</StartupObject>
-	</PropertyGroup>
+	  <UserSecretsId>8de2518a-e693-4b5b-aa6b-84d1c5b0bbe5</UserSecretsId>
+  </PropertyGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\Ingresso.Infra.IoC\Ingresso.Infra.IoC.csproj" />

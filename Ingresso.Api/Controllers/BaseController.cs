@@ -16,6 +16,9 @@ namespace Ingresso.Api.Controllers
             if (string.IsNullOrEmpty(currentUser.Email) && string.IsNullOrEmpty(currentUser.Cpf))
                 return null;
 
+            if(!currentUser.IsValid)
+                return null;
+
             if (!string.IsNullOrEmpty(currentUser.Email))
             {
                 return new UserAuthDTO { Email = currentUser.Email, Password = currentUser.Password };

@@ -29,7 +29,7 @@ namespace Ingresso.Api.Authentication
 
                 var time = long.Parse(claims.First(x => x.Type == "exp").Value);
                 DateTimeOffset dt = DateTimeOffset.FromUnixTimeSeconds(time);
-                IsValid = dt.DateTime > DateTime.Now;
+                IsValid = dt.DateTime > DateTime.UtcNow;
             }
 
             if (claims != null && claims.Any(x => x.Type == "Password"))

@@ -1,6 +1,7 @@
 ﻿using Ingresso.Domain.Authentication;
 using Ingresso.Domain.Entities;
 using Ingresso.Domain.InfoErrors;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -10,9 +11,16 @@ namespace Ingresso.Infra.Data.Authentication
 {
     public class TokenGeneratorCpf : ITokenGeneratorCpf
     {
-        public InfoErrors<TokenOutValue> Generator(User user, ICollection<UserPermission> userPermissions, string password)
+        private readonly IConfiguration _configuration;
+
+        public TokenGeneratorCpf(IConfiguration configuration)
         {
-            if (user.Cpf == null || string.IsNullOrEmpty(password))
+            _configuration = configuration;
+        }
+
+        public InfoErrors<TokenOutValue> Generator(User user, ICollection<UserPermission> userPermissions, string? password)
+        {
+            if (string.IsNullOrEmpty(user.Cpf) || string.IsNullOrEmpty(password))
                 return InfoErrors.Fail(new TokenOutValue(), "Cpf or password null check");
 
             var permission = string.Join(",", userPermissions.Select(x => x.Permission?.PermissionName));
@@ -24,12 +32,12 @@ namespace Ingresso.Infra.Data.Authentication
                 new Claim("Permissioes", permission),
             };
 
-            var keySecret = Environment.GetEnvironmentVariable("KeyJWT") ?? "GXN0jYSyPZYP3D3WULO8naEHQp9XRP347UvK5I";
+            var keySecret = _configuration["KeyJWT"];
 
-            if (string.IsNullOrEmpty(keySecret))
+            if (string.IsNullOrEmpty(keySecret) || keySecret.Length < 16)
                 return InfoErrors.Fail(new TokenOutValue(), "error token related");
 
-            var expires = DateTime.Now.AddDays(1);
+            var expires = DateTime.UtcNow.AddDays(1);
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keySecret));
             var tokenData = new JwtSecurityToken(
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature),
