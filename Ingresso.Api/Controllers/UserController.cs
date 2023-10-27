@@ -30,16 +30,16 @@ namespace Ingresso.Api.Controllers
             return BadRequest(result);
         }
 
-        //[Authorize]
-        //[HttpGet("v1/user/get")]
-        //public async Task<IActionResult> Get()
-        //{
-        //    var userAuth = Validator(_currentUser);
-        //    if (userAuth == null)
-        //        return Forbidden();
+        [Authorize]
+        [HttpGet("v1/user/get")]
+        public async Task<IActionResult> Get()
+        {
+            var userAuth = Validator(_currentUser);
+            if (userAuth == null)
+                return Forbidden();
 
-        //    return Ok("ok");
-        //}
+            return Ok("ok");
+        }
 
 
         [HttpPost("v1/user/create")]

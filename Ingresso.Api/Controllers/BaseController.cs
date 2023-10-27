@@ -8,8 +8,10 @@ namespace Ingresso.Api.Controllers
     public class BaseController : ControllerBase
     {
         [NonAction]
-        public UserAuthDTO? Validator(ICurrentUser currentUser)
+        public UserAuthDTO? Validator(ICurrentUser? currentUser)
         {
+            // password talvez não possa ser menor que 8 talvez
+
             if (currentUser == null || string.IsNullOrEmpty(currentUser.Password))
                 return null;
 

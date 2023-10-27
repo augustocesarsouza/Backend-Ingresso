@@ -2,9 +2,9 @@
 {
     public interface ICurrentUser
     {
-        public string? Email { get; set; }
-        public string? Cpf { get; set; }
-        public string? Password { get; set; }
-        public bool IsValid { get; set; }
+        public string? Email { get; }
+        public string? Cpf { get; }
+        public string? Password { get; }
+        public bool IsValid { get; }
     }
 }
