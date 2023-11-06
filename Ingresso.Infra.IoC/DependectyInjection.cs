@@ -1,4 +1,5 @@
-﻿using Ingresso.Application.DTOs.Validations.Interfaces;
+﻿using Hangfire;
+using Ingresso.Application.DTOs.Validations.Interfaces;
 using Ingresso.Application.DTOs.Validations.UserValidator;
 using Ingresso.Application.Mappings;
 using Ingresso.Application.Services;
@@ -19,7 +20,23 @@ namespace Ingresso.Infra.IoC
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration["ConnectionStrings:DefaultConnection"];
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddDbContext<ApplicationDbContext>(
+                  options => options.UseSqlServer(connectionString)); // Server=ms-sql-server; quando depender dele no Docker-Compose
+
+
+            services.AddStackExchangeRedisCache(redis =>
+            {
+                redis.Configuration = "localhost:7000"; //"redis:6379"
+            });
+
+            //services.AddHangfire(config => 
+            //    config.UseSimpleAssemblyNameTypeSerializer()
+            //    .UseRecommendedSerializerSettings()
+            //    .UseSqlServerStorage(connectionString)
+            //); JOBS
+
+            //services.AddHangfireServer();
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();

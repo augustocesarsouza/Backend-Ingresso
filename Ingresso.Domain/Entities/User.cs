@@ -17,6 +17,17 @@
         {
         }
 
+        public static User Create(int id, string? email, string? cpf, string? passwordHash)
+        {
+            return new User
+            {
+                Id = id,
+                Email = email,
+                Cpf = cpf,
+                PasswordHash = passwordHash
+            };
+        }
+
         public User(int id, string? name)
         {
             Id = id;

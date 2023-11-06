@@ -1,4 +1,6 @@
+using Hangfire;
 using Ingresso.Api.Authentication;
+using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Ingresso.Infra.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,7 +67,11 @@ namespace Ingresso.Api
             app.UseCors("CorsPolity");
 
             app.MapControllers();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+
+            //app.UseHangfireDashboard(); Criar jobs
+            //app.MapHangfireDashboard();
+            //RecurringJob.AddOrUpdate<IUserService>(x => x.GetUsers(), "0 * * ? * *");
 
             app.UseAuthentication();
             app.UseAuthorization();

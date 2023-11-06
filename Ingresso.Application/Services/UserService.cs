@@ -36,6 +36,13 @@ namespace Ingresso.Application.Services
             _userCreateDTOValidator = userCreateDTOValidator;
         }
 
+        public async Task<ResultService<List<UserDto>>> GetUsers()
+        {
+            var users = await _userRepository.GetUsers();
+
+            return ResultService.Ok(_mapper.Map<List<UserDto>>(users));
+        }
+
         public async Task<ResultService<UserDto>> CreateAsync(UserDto? userDto)
         {
             if (userDto == null)

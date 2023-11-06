@@ -1,4 +1,4 @@
-﻿using Ingresso.Api.Authentication;
+﻿using Hangfire;
 using Ingresso.Application.DTOs;
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
@@ -30,15 +30,20 @@ namespace Ingresso.Api.Controllers
             return BadRequest(result);
         }
 
-        [Authorize]
-        [HttpGet("v1/user/get")]
-        public async Task<IActionResult> Get()
+        //[Authorize]
+        [HttpGet("v1/user/getUsers")]
+        public async Task<IActionResult> GetUsers()
         {
-            var userAuth = Validator(_currentUser);
-            if (userAuth == null)
-                return Forbidden();
+            //var userAuth = Validator(_currentUser);
+            //if (userAuth == null)
+            //    return Forbidden();
 
-            return Ok("ok");
+            var results = await _userService.GetUsers();
+
+            if (results.IsSucess)
+                return Ok(results);
+
+            return BadRequest(results);
         }
 
 
@@ -46,7 +51,7 @@ namespace Ingresso.Api.Controllers
         public async Task<IActionResult> CreateAsync([FromBody] UserDto userDto)
         {
             var result = await _userService.CreateAsync(userDto);
-            if(result.IsSucess)
+            if (result.IsSucess)
                 return Ok(result);
 
             return BadRequest(result);

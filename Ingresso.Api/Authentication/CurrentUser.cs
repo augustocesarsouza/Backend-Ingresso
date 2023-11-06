@@ -1,4 +1,5 @@
 ﻿using Ingresso.Domain.Authentication;
+using System.Web;
 
 namespace Ingresso.Api.Authentication
 {
