@@ -18,25 +18,10 @@ namespace Ingresso.Application.DTOs.Validations.UserValidator
                 .NotNull()
                 .WithMessage("Should be Informed Email");
 
-            RuleFor(x => x.EmailRecovery)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage("Should be Informed EmailRecovery");
-
-            RuleFor(x => x.Phone)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage("Should be Informed Phone");
-
             RuleFor(x => x.Cpf)
                 .NotEmpty()
                 .NotNull()
                 .WithMessage("Should be Informed Cpf");
-
-            RuleFor(x => x.BirthDateString)
-                .NotEmpty()
-                .NotNull()
-                .WithMessage("Should be Informed BirthDate");
 
             RuleFor(x => x.Password)
                 .NotEmpty()
@@ -45,7 +30,7 @@ namespace Ingresso.Application.DTOs.Validations.UserValidator
                 .WithMessage("The password must contain a minimum of 7 characters and a maximum of 20");
         }
 
-        public ValidationResult ValidateUserDto(UserDto userDto)
+        public ValidationResult ValidateDTO(UserDto userDto)
         {
             return Validate(userDto);
         }

@@ -4,14 +4,18 @@ using Ingresso.Application.DTOs.Validations.UserValidator;
 using Ingresso.Application.Mappings;
 using Ingresso.Application.Services;
 using Ingresso.Application.Services.Interfaces;
+using Ingresso.Infra.Data.UtulityExternal;
+using Ingresso.Infra.Data.UtulityExternal.Interface;
 using Ingresso.Domain.Authentication;
 using Ingresso.Domain.Repositories;
 using Ingresso.Infra.Data.Authentication;
 using Ingresso.Infra.Data.Context;
 using Ingresso.Infra.Data.Repositories;
+using Ingresso.Infra.Data.SendEmailUser;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using sib_api_v3_sdk.Api;
 
 namespace Ingresso.Infra.IoC
 {
@@ -27,8 +31,9 @@ namespace Ingresso.Infra.IoC
 
             services.AddStackExchangeRedisCache(redis =>
             {
-                redis.Configuration = "localhost:7000"; //"redis:6379"
+                redis.Configuration = "localhost:6001";
             });
+            //"redis:6379"
 
             //services.AddHangfire(config => 
             //    config.UseSimpleAssemblyNameTypeSerializer()
@@ -40,8 +45,10 @@ namespace Ingresso.Infra.IoC
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
+            services.AddScoped<IAdditionalInfoUserRepository, AdditionalInfoUserRepository>();
             services.AddScoped<ITokenGeneratorEmail, TokenGeneratorEmail>();
             services.AddScoped<ITokenGeneratorCpf, TokenGeneratorCpf>();
+            services.AddScoped<ISendEmailUser, SendEmailUser>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
@@ -50,10 +57,18 @@ namespace Ingresso.Infra.IoC
         public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAutoMapper(typeof(DomainToDtoMapping));
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserManagementService, UserManagementService>();
             services.AddScoped<IUserPermissionService, UserPermissionService>();
+            services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+            services.AddScoped<IUserConfirmationService, UserConfirmationService>();
+            services.AddScoped<IAdditionalInfoUserService, AdditionalInfoUserService>();
+            services.AddScoped<ISendEmailBrevo, SendEmailBrevo>();
+            services.AddScoped<ITransactionalEmailApiUti, TransactionalEmailApiUti>();
+            services.AddScoped<ITransactionalEmailsApi, TransactionalEmailsApi>();
             services.AddScoped<IPasswordHasherWrapper, PasswordHasherWrapper>();
+            services.AddScoped<ICacheRedisUti, CacheRedisUti>();
             services.AddScoped<IUserCreateDTOValidator, UserCreateDTOValidator>();
+            services.AddScoped<IAdditionalInfoUserDTOValidator, AdditionalInfoUserDTOValidator>();
             return services;
         }
     }

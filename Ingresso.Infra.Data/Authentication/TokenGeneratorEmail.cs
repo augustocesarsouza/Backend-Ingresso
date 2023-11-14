@@ -43,7 +43,7 @@ namespace Ingresso.Infra.Data.Authentication
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature),
                 expires: expires,
                 claims: claims);
-            
+
             var token = new JwtSecurityTokenHandler().WriteToken(tokenData);
             var tokenValue = new TokenOutValue();
             var sucessfullyCreatedToken = tokenValue.ValidateToken(token, expires);

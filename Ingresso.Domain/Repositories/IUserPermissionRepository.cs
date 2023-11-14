@@ -4,6 +4,6 @@ namespace Ingresso.Domain.Repositories
 {
     public interface IUserPermissionRepository
     {
-        public Task<ICollection<UserPermission?>?> GetAllPermissionUser(int? idUser);
+        public Task<ICollection<UserPermission?>?> GetAllPermissionUser(Guid? idUser);
     }
 }

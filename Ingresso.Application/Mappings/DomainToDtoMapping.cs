@@ -25,6 +25,7 @@ namespace Ingresso.Application.Mappings
                 //});
             CreateMap<Permission, PermissionDTO>();
             CreateMap<UserPermission, UserPermissionDTO>();
+            CreateMap<AdditionalInfoUser, AdditionalInfoUserDTO>();
         }
     }
 }

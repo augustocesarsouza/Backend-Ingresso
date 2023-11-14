@@ -1,5 +1,6 @@
 using Hangfire;
 using Ingresso.Api.Authentication;
+using Ingresso.Application.MyHubs;
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Ingresso.Infra.IoC;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
+using Xunit.Sdk;
 
 namespace Ingresso.Api
 {
@@ -16,8 +18,8 @@ namespace Ingresso.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            //builder.Services.AddAuthentication();
-            //builder.Services.AddAuthorization();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
             builder.Services.AddControllers();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICurrentUser, CurrentUser>();
@@ -60,14 +62,15 @@ namespace Ingresso.Api
             builder.Services.AddEndpointsApiExplorer(); // Principalmente para Swagger
             builder.Services.AddInfrastructure(builder.Configuration);
             builder.Services.AddServices(builder.Configuration);
-            
+            builder.Services.AddSignalR();
+
             var app = builder.Build();
             app.UseRouting();
 
             app.UseCors("CorsPolity");
 
             app.MapControllers();
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             //app.UseHangfireDashboard(); Criar jobs
             //app.MapHangfireDashboard();
@@ -76,6 +79,10 @@ namespace Ingresso.Api
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<GeneralHub>("/generalhub");
+            });
 
             app.Run();
         }

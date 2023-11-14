@@ -11,9 +11,9 @@ namespace Ingresso.Infra.Data.Maps
             builder.ToTable("User");
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
+            builder.Property(x => x.Id) 
                 .IsRequired()
-                .UseIdentityColumn()
+                .HasColumnType("uniqueidentifier")
                 .HasColumnName("Id");
 
             builder.Property(x => x.Name)
@@ -24,27 +24,28 @@ namespace Ingresso.Infra.Data.Maps
                 .IsRequired()
                 .HasColumnName("Email");
 
-            builder.Property(x => x.EmailRecovery)
-                .IsRequired()
-                .HasColumnName("EmailRecovery");
-
-            builder.Property(x => x.Phone)
-                .IsRequired()
-                .HasColumnName("Phone");
-
             builder.Property(x => x.Cpf)
                 .IsRequired()
                 .HasColumnName("Cpf");
-
-            builder.Ignore(x => x.Token);
 
             builder.Property(x => x.PasswordHash)
                .IsRequired()
                .HasColumnName("PasswordHash");
 
-            builder.Property(x => x.BirthDate)
-               .IsRequired()
-               .HasColumnName("BirthDate");
+            builder.Ignore(x => x.Token);
+
+            builder.Property(x => x.ConfirmEmail)
+               .IsRequired(false)
+               .HasColumnName("ConfirmEmail");
+
+            //builder.Property(x => x.Phone)
+            //    .IsRequired(false)
+            //    .HasColumnName("Phone");
+
+            //builder.Property(x => x.BirthDate)
+            //   .IsRequired(false)
+            //   .HasColumnName("BirthDate");
+
         }
     }
 }

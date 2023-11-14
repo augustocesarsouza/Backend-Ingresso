@@ -12,7 +12,7 @@ namespace Ingresso.Domain.EntitiesTest
             // arrange
             var userPermission = new UserPermission();
             var id = 1;
-            var userId = 1;
+            var userId = Guid.NewGuid();
             var permission = new Permission();
 
             // act
@@ -30,7 +30,7 @@ namespace Ingresso.Domain.EntitiesTest
             // arrange
             var userPermission = new UserPermission();
             var id = 1;
-            var userId = 1;
+            var userId = Guid.NewGuid();
 
             // assert
             Assert.Throws<DomainValidationException>(() => userPermission.Validator(id, userId, null));
@@ -42,7 +42,7 @@ namespace Ingresso.Domain.EntitiesTest
             // arrange
             var userPermission = new UserPermission();
             var id = 1;
-            var userId = 0;
+            var userId = Guid.NewGuid();
             var permission = new Permission();
 
             // assert
@@ -55,7 +55,7 @@ namespace Ingresso.Domain.EntitiesTest
             // arrange
             var userPermission = new UserPermission();
             var id = 0;
-            var userId = 1;
+            var userId = Guid.NewGuid();
             var permission = new Permission();
 
             // assert
@@ -68,7 +68,7 @@ namespace Ingresso.Domain.EntitiesTest
             // arrange
             var userPermission = new UserPermission();
             var id = 0;
-            var userId = 0;
+            var userId = Guid.NewGuid();
 
             // assert
             Assert.Throws<DomainValidationException>(() => userPermission.Validator(id, userId, null));

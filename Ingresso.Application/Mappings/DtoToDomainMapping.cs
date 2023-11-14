@@ -11,6 +11,7 @@ namespace Ingresso.Application.Mappings
             CreateMap<UserDto, User>();
             CreateMap<PermissionDTO, Permission>();
             CreateMap<UserPermissionDTO, UserPermission>(); 
+            CreateMap<AdditionalInfoUserDTO, AdditionalInfoUser>();
         }
     }
 }

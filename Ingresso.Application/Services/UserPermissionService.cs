@@ -16,7 +16,7 @@ namespace Ingresso.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<ResultService<List<UserPermissionDTO>>> GetAllPermissionUser(int? idUser)
+        public async Task<ResultService<List<UserPermissionDTO>>> GetAllPermissionUser(Guid? idUser)
         {
             var permission = await _repository.GetAllPermissionUser(idUser);
             if (permission == null || permission.Count <= 0)

@@ -14,7 +14,7 @@ namespace Ingresso.Infra.Data.Repositories
             _context = context;
         }
 
-        public async Task<ICollection<UserPermission?>?> GetAllPermissionUser(int? idUser)
+        public async Task<ICollection<UserPermission?>?> GetAllPermissionUser(Guid? idUser)
         {
             var permission = await
                 _context

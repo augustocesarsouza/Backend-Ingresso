@@ -2,6 +2,7 @@
 using Ingresso.Domain.Repositories;
 using Ingresso.Infra.Data.Context;
 using Ingresso.Infra.Data.Persistense;
+using Ingresso.Infra.Data.UtulityExternal.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -11,18 +12,31 @@ namespace Ingresso.Infra.Data.Repositories
     public class UserRepository : IUserRepository
     {
         private readonly ApplicationDbContext _context;
-        private readonly IDistributedCache _distributedCache;
+        //private readonly IDistributedCache _distributedCache;
+        private readonly ICacheRedisUti _cache;
 
-        public UserRepository(ApplicationDbContext applicationDbContext, IDistributedCache distributedCache)
+        public UserRepository(ApplicationDbContext applicationDbContext, ICacheRedisUti cacheRedisUti)
         {
             _context = applicationDbContext;
-            _distributedCache = distributedCache;
+            _cache = cacheRedisUti;
         }
 
         public async Task<User?> CreateAsync(User user)
         {
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<User?> GetUserEmail(string email)
+        {
+            var user = await 
+                _context
+                .Users
+                .Where(x => x.Email == email)
+                .Select(x => new User(x.Id, x.Name))
+                .FirstOrDefaultAsync();
 
             return user;
         }
@@ -37,7 +51,7 @@ namespace Ingresso.Infra.Data.Repositories
             //return users;
 
             var chaveKey = "UserList";
-            var cached = await _distributedCache.GetStringAsync(chaveKey);
+            var cached = await _cache.GetStringAsyncWrapper(chaveKey);
 
             if (string.IsNullOrEmpty(cached))
             {
@@ -51,7 +65,7 @@ namespace Ingresso.Infra.Data.Repositories
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2)
                 };
 
-                await _distributedCache.SetStringAsync(chaveKey, JsonConvert.SerializeObject(users), cacheEntryOptions);
+                await _cache.SetStringAsyncWrapper(chaveKey, JsonConvert.SerializeObject(users), cacheEntryOptions);
 
                 return users;
             }
@@ -68,6 +82,16 @@ namespace Ingresso.Infra.Data.Repositories
 
                 return userDto;
             }
+        }
+
+        public async Task<User?> GetUserById(Guid id)
+        {
+            var user = await _context
+                .Users
+                .Where(u => u.Id == id)
+                .FirstOrDefaultAsync();
+
+            return user;
         }
 
         public async Task<User?> GetUserByEmail(string email)
@@ -101,6 +125,14 @@ namespace Ingresso.Infra.Data.Repositories
                 .Where(u => u.Email == email || u.Cpf == cpf)
                 .Select(x => new User(x.Id, x.Name))
                 .FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<User?> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
 
             return user;
         }

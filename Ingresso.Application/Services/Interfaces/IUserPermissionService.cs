@@ -4,6 +4,6 @@ namespace Ingresso.Application.Services.Interfaces
 {
     public interface IUserPermissionService
     {
-        public Task<ResultService<List<UserPermissionDTO>>> GetAllPermissionUser(int? idUser);
+        public Task<ResultService<List<UserPermissionDTO>>> GetAllPermissionUser(Guid? idUser);
     }
 }

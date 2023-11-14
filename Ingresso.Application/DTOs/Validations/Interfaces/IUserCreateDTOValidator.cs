@@ -2,6 +2,6 @@
 {
     public interface IUserCreateDTOValidator
     {
-        public FluentValidation.Results.ValidationResult ValidateUserDto(UserDto userDto);
+        public FluentValidation.Results.ValidationResult ValidateDTO(UserDto userDto);
     }
 }

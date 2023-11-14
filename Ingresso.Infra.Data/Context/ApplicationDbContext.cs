@@ -10,11 +10,13 @@ namespace Ingresso.Infra.Data.Context
             Users = Set<User>();
             Permissions = Set<Permission>();
             UserPermissions = Set<UserPermission>();
+            AdditionalInfoUsers = Set<AdditionalInfoUser>();
         }
 
         public DbSet<User> Users { get; private set; }
         public DbSet<Permission> Permissions { get; private set; }
         public DbSet<UserPermission> UserPermissions { get; private set; }
+        public DbSet<AdditionalInfoUser> AdditionalInfoUsers { get; private set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

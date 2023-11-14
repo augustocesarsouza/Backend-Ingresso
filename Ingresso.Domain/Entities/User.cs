@@ -2,14 +2,14 @@
 {
     public class User
     {
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
         public string? Name { get; private set; }
         public string? Email { get; private set; }
-        public string? EmailRecovery { get; private set; }
-        public string? Phone { get; private set; }
         public string? Cpf { get; private set; }
         public string? PasswordHash { get; private set; }
-        public DateTime? BirthDate { get; private set; }
+        public int? ConfirmEmail { get; private set; }
+        //public string? Phone { get; private set; }
+        //public DateTime? BirthDate { get; private set; }
 
         public string? Token { get; private set; }
 
@@ -17,24 +17,18 @@
         {
         }
 
-        public static User Create(int id, string? email, string? cpf, string? passwordHash)
-        {
-            return new User
-            {
-                Id = id,
-                Email = email,
-                Cpf = cpf,
-                PasswordHash = passwordHash
-            };
-        }
-
-        public User(int id, string? name)
+        public User(Guid id, string? name)
         {
             Id = id;
             Name = name;
         }
 
-        public User(int id, string? email, string? cpf, string? passwordHash)
+        public User(Guid id, string? name, string? email) : this(id, name)
+        {
+            Email = email;
+        }
+
+        public User(Guid id, string? email, string? cpf, string? passwordHash)
         {
             Id = id;
             Email = email;
@@ -46,6 +40,11 @@
         {
             DomainValidationException.When(string.IsNullOrEmpty(token), "Token not generated");
             Token = token;
+        }
+
+        public void ConfirmedEmail(int value)
+        {
+            ConfirmEmail = value;
         }
     }
 }
