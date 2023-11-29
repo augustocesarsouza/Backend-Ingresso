@@ -20,7 +20,7 @@ namespace Ingresso.Infra.Data.UtulityExternal
             {
                 var createResult = _transactionalEmailApi.SendTransacEmail(sendSmtpEmail);
                 if (createResult == null)
-                    return InfoErrors.Fail("erro return null SendTransacEmail");
+                    return InfoErrors.Fail("erro not completed");
 
                 return InfoErrors.Ok(createResult);
             }

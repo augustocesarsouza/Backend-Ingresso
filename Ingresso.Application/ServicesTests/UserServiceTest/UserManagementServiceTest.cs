@@ -5,7 +5,6 @@ using Ingresso.Domain.Entities;
 using Ingresso.Domain.InfoErrors;
 using Moq;
 using System.ComponentModel;
-using System.Numerics;
 using Xunit;
 
 namespace Ingresso.Application.ServicesTests.UserServiceTest
@@ -53,11 +52,6 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
 
             _configuration.UserRepositoryMock.Setup(repo => repo.CheckUserExits(It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync((User?)null);
             _configuration.UserRepositoryMock.Setup(repo => repo.CreateAsync(It.IsAny<User>())).ReturnsAsync(new User());
-
-            _configuration.SendEmailUser.Setup(send => send.SendEmail(It.IsAny<User>())).ReturnsAsync(InfoErrors.Ok("tudo certo"));
-
-            _configuration.AdditionalInfoUserService.Setup(
-                add => add.CreateInfo(It.IsAny<AdditionalInfoUserDTO>())).ReturnsAsync(ResultService.Ok(new AdditionalInfoUserDTO()));
 
             // Act
             var result = await _userManagementService.CreateAsync(userDto);

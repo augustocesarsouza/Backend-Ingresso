@@ -6,5 +6,6 @@ namespace Ingresso.Infra.Data.UtulityExternal.Interface
     public interface ISendEmailBrevo
     {
         public InfoErrors SendEmail(User user, string url);
+        public InfoErrors SendCode(User user, int codeRandon);
     }
 }

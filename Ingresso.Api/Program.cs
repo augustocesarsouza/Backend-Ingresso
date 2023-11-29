@@ -1,14 +1,11 @@
-using Hangfire;
 using Ingresso.Api.Authentication;
 using Ingresso.Application.MyHubs;
-using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Ingresso.Infra.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json.Serialization;
-using Xunit.Sdk;
 
 namespace Ingresso.Api
 {
@@ -33,7 +30,7 @@ namespace Ingresso.Api
             {
                 options.AddPolicy("CorsPolity", builder =>
                 {
-                    builder.WithOrigins("http://localhost:5173")
+                    builder.WithOrigins("http://localhost:5000")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

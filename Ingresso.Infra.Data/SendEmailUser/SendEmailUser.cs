@@ -52,9 +52,26 @@ namespace Ingresso.Infra.Data.SendEmailUser
                     await _distributedCache.SetStringAsyncWrapper(chaveKey, JsonConvert.SerializeObject(tokenString), cacheEntryOptions);
                 }
 
-                var url = $"http://localhost:5173/minha-conta/confirmacao-de-email?token={tokenString}";
+                var url = $"http://localhost:5700/minha-conta/confirmacao-de-email?token={tokenString}";
 
                 var resultSend = _sendEmailBrevo.SendEmail(user, url);
+
+                if (!resultSend.IsSucess)
+                    return InfoErrors.Fail(resultSend.Message ?? "error envio do email");
+
+                return InfoErrors.Ok("tudo certo com o envio do email");
+            }
+            catch (Exception ex)
+            {
+                return InfoErrors.Fail($"Falha ao enviar email, ERRO: ${ex.Message}");
+            }
+        }
+
+        public InfoErrors SendCodeRandom(User user, int code)
+        {
+            try
+            {
+                var resultSend = _sendEmailBrevo.SendCode(user, code);
 
                 if (!resultSend.IsSucess)
                     return InfoErrors.Fail(resultSend.Message ?? "error envio do email");

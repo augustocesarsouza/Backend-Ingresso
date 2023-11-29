@@ -42,11 +42,11 @@ namespace Ingresso.Domain.EntitiesTest
             // arrange
             var userPermission = new UserPermission();
             var id = 1;
-            var userId = Guid.NewGuid();
+            var userId = Guid.Empty;
             var permission = new Permission();
 
             // assert
-            Assert.Throws<DomainValidationException>(() => userPermission.Validator(id, userId, permission));
+            Assert.Throws<DomainValidationException>(() => userPermission.Validator(id, null, permission));
         }
 
         [Fact]

@@ -57,7 +57,7 @@ namespace Ingresso.Infra.Data.Repositories
             {
                 var users = await _context
                     .Users
-                    .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash))
+                    .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash, x.Name))
                     .ToListAsync();
 
                 var cacheEntryOptions = new DistributedCacheEntryOptions
@@ -101,7 +101,19 @@ namespace Ingresso.Infra.Data.Repositories
             var user = await _context
                 .Users
                 .Where(u => u.Email == email)
-                .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash))
+                .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash, x.Name))
+                .FirstOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<User?> GetUserByEmailOnlyPasswordHash(Guid idGuid)
+        {
+
+            var user = await _context
+                .Users
+                .Where(u => u.Id == idGuid)
+                .Select(x => new User(x.PasswordHash))
                 .FirstOrDefaultAsync();
 
             return user;
@@ -112,7 +124,7 @@ namespace Ingresso.Infra.Data.Repositories
             var user = await _context
                 .Users
                 .Where(u => u.Cpf == cpf)
-                .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash))
+                .Select(x => new User(x.Id, x.Email, x.Cpf, x.PasswordHash, x.Name))
                 .FirstOrDefaultAsync();
 
             return user;

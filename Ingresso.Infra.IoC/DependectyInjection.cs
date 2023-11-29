@@ -31,7 +31,7 @@ namespace Ingresso.Infra.IoC
 
             services.AddStackExchangeRedisCache(redis =>
             {
-                redis.Configuration = "localhost:6001";
+                redis.Configuration = "localhost:7001";
             });
             //"redis:6379"
 

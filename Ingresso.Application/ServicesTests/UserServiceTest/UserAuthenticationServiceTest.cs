@@ -19,7 +19,7 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
             var userAuth = new UserAuthenticationService(
                _configuration.UserRepositoryMock.Object, _configuration.TokenGeneratorEmailMock.Object, _configuration.TokenGeneratorCpfMock.Object,
                _configuration.MapperMock.Object, _configuration.UnitOfWorkMock.Object, _configuration.UserPermissionServiceMock.Object,
-               _configuration.PasswordHasherGeneratorMock.Object);
+               _configuration.PasswordHasherGeneratorMock.Object, _configuration.SendEmailUser.Object);
 
             _userAuthenticationService = userAuth;
         }
@@ -115,8 +115,10 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
             _configuration.PasswordHasherGeneratorMock.Setup
                 (pass => pass.Verify(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<short>(), It.IsAny<int>(), It.IsAny<char>(), It.IsAny<string>())).Returns(true);
 
+            var guidId = Guid.NewGuid();
+
             var permission = new List<UserPermissionDTO>();
-            permission.Add(new UserPermissionDTO { UserId = 1, PermissionId = 1 });
+            permission.Add(new UserPermissionDTO { UserId = guidId, PermissionId = 1 });
 
             _configuration.UserPermissionServiceMock.Setup
                 (ser => ser.GetAllPermissionUser(It.IsAny<Guid>())).ReturnsAsync(ResultService.Ok(permission));

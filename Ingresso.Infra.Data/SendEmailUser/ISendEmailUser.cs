@@ -5,6 +5,7 @@ namespace Ingresso.Infra.Data.SendEmailUser
 {
     public interface ISendEmailUser
     {
-        public Task<InfoErrors> SendEmail(User user); 
+        public Task<InfoErrors> SendEmail(User user);
+        public InfoErrors SendCodeRandom(User user, int code);
     }
 }

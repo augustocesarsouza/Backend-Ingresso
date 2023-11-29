@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Ingresso.Application.CodeRandomUser;
 using Ingresso.Application.DTOs;
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Ingresso.Domain.Entities;
 using Ingresso.Domain.Repositories;
+using Ingresso.Infra.Data.SendEmailUser;
 using System.Text.RegularExpressions;
 
 namespace Ingresso.Application.Services
@@ -18,10 +20,13 @@ namespace Ingresso.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUserPermissionService _userPermissionService;
         private readonly IPasswordHasherWrapper _passwordHasher;
+        private readonly ISendEmailUser _sendEmailUser;
+        private readonly static CodeRandomDictionary _codeRandomDictionary = new();
+        private static int RandomCode = 0;
 
         public UserAuthenticationService(
             IUserRepository userRepository, ITokenGeneratorEmail tokenGeneratorEmail, ITokenGeneratorCpf tokenGeneratorCpf,
-            IMapper mapper, IUnitOfWork unitOfWork, IUserPermissionService userPermissionService, IPasswordHasherWrapper passwordHasher)
+            IMapper mapper, IUnitOfWork unitOfWork, IUserPermissionService userPermissionService, IPasswordHasherWrapper passwordHasher, ISendEmailUser sendEmailUser)
         {
             _userRepository = userRepository;
             _tokenGeneratorEmail = tokenGeneratorEmail;
@@ -30,6 +35,7 @@ namespace Ingresso.Application.Services
             _unitOfWork = unitOfWork;
             _userPermissionService = userPermissionService;
             _passwordHasher = passwordHasher;
+            _sendEmailUser = sendEmailUser;
         }
 
         public async Task<ResultService<UserDto>> Login(string cpfOrEmail, string password)
@@ -59,6 +65,11 @@ namespace Ingresso.Application.Services
                 {
                     await _unitOfWork.BeginTransaction();
                     user.ValidatorToken(token.Data.Acess_Token ?? "");
+
+                    var randomCode = GerarNumeroAleatorio();
+                    _codeRandomDictionary.Add(user.Id.ToString(), randomCode);
+                    //_sendEmailUser.SendCodeRandom(user, randomCode); Descomentar depois para enviar Email
+
                     await _unitOfWork.Commit();
                     return ResultService.Ok(_mapper.Map<UserDto>(user));
                 }
@@ -104,6 +115,50 @@ namespace Ingresso.Application.Services
             }
 
             return ResultService.Fail<UserDto>("a valid email or valid CPF must be provided");
+        }
+
+        private static int GerarNumeroAleatorio()
+        {
+            Random random = new Random();
+            return random.Next(100000, 1000000);
+        }
+
+        public ResultService<string> Verfic(int code, string guidId)
+        {
+            if (_codeRandomDictionary.Container(guidId, code))
+            {
+                _codeRandomDictionary.Remove(guidId);
+                return ResultService.Ok<string>("ok");
+            }
+            else
+            {
+                return ResultService.Fail<string>("error");
+            }
+        }
+
+        public ResultService<string> ResendCode(UserDto user)
+        {
+            var guidId = user.Id.ToString();
+            if (guidId == null)
+                return ResultService.Fail<string>("guid do usuario é null");
+
+            if (_codeRandomDictionary.Container(guidId))
+            {
+                _codeRandomDictionary.Remove(guidId);
+            }
+
+            var randomCode = GerarNumeroAleatorio();
+            _codeRandomDictionary.Add(guidId, randomCode);
+
+            var result = _sendEmailUser.SendCodeRandom(_mapper.Map<User>(user), randomCode);
+            if (result.IsSucess)
+            {
+                return ResultService.Ok<string>(result.Message ?? "tudo certo no envio");
+            }
+            else
+            {
+                return ResultService.Fail<string>(result.Message ?? "algum erro relacionado ao envio de email");
+            }
         }
     }
 }

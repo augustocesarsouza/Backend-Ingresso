@@ -8,6 +8,7 @@ namespace Ingresso.Domain.Repositories
         public Task<User?> GetUserEmail(string email);
         public Task<List<User>?> GetUsers();
         public Task<User?> GetUserByEmail(string email);
+        public Task<User?> GetUserByEmailOnlyPasswordHash(Guid idGuid);
         public Task<User?> GetUserById(Guid id);
         public Task<User?> GetUserByCpf(string cpf);
         public Task<User?> CheckUserExits(string email, string cpf);

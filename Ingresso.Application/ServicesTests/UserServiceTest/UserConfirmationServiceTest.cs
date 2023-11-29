@@ -2,6 +2,7 @@
 using Ingresso.Domain.Entities;
 using Microsoft.IdentityModel.Tokens;
 using Moq;
+using System.ComponentModel;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -26,9 +27,11 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         [Fact]
         public async void Should_Confirm_Token_Valid_Creation()
         {
+            var idUserGid = Guid.NewGuid().ToString();
+
             var claims = new List<Claim>
                     {
-                    new Claim("id", "10"),
+                    new Claim("id", idUserGid),
                     };
 
             var expires = DateTime.UtcNow.AddMinutes(10);
@@ -52,11 +55,35 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         }
 
         [Fact]
-        public async void Should_Token_Invalid_Confirm_Token_Expired()
+        [Description("The idea here is if I send anything different in the Claim in 'id' that is not a Guid it will throw an error")]
+        public async void Should_Throw_Erro_When_Sending_Id_Different_From_Guid()
         {
             var claims = new List<Claim>
                     {
                     new Claim("id", "10"),
+                    };
+
+            var expires = DateTime.UtcNow.AddMinutes(10);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("seilakey123seilakey"));
+            var tokenValidate = new JwtSecurityToken(
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature),
+            expires: expires,
+                claims: claims);
+
+            var tokenTest = new JwtSecurityTokenHandler().WriteToken(tokenValidate);
+
+            var result = await _userConfirmationService.GetConfirmToken(tokenTest);
+            Assert.False(result.IsSucess);
+        }
+
+        [Fact]
+        public async void Should_Token_Invalid_Confirm_Token_Expired()
+        {
+            var idUserGid = Guid.NewGuid().ToString();
+
+            var claims = new List<Claim>
+                    {
+                    new Claim("id", idUserGid),
                     };
 
             var expires = DateTime.UtcNow.AddMilliseconds(1);
@@ -95,10 +122,12 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         [Fact]
         public async void Invalid_Was_Not_Reported_Claims_Exp()
         {
+            var idUserGid = Guid.NewGuid().ToString();
+
             var claims = new List<Claim>
-            {
-                new Claim("id", "10"),
-            };
+                    {
+                    new Claim("id", idUserGid),
+                    };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("seilakey123seilakey"));
             var tokenValidate = new JwtSecurityToken(
@@ -123,9 +152,11 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         [Fact]
         public async void Already_Viewed_Once_Token()
         {
+            var idUserGid = Guid.NewGuid().ToString();
+
             var claims = new List<Claim>
                     {
-                    new Claim("id", "10"),
+                    new Claim("id", idUserGid),
                     };
 
             var expires = DateTime.UtcNow.AddMinutes(10);
@@ -147,9 +178,11 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         [Fact]
         public async void DataBase_Returns_User_Null_GetId()
         {
+            var idUserGid = Guid.NewGuid().ToString();
+
             var claims = new List<Claim>
                     {
-                    new Claim("id", "10"),
+                    new Claim("id", idUserGid),
                     };
 
             var expires = DateTime.UtcNow.AddMinutes(10);
@@ -173,9 +206,11 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         [Fact]
         public async void DataBase_Returns_User_Null_Update()
         {
+            var idUserGid = Guid.NewGuid().ToString();
+
             var claims = new List<Claim>
                     {
-                    new Claim("id", "10"),
+                    new Claim("id", idUserGid),
                     };
 
             var expires = DateTime.UtcNow.AddMinutes(10);

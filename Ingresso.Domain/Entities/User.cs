@@ -1,4 +1,6 @@
-﻿namespace Ingresso.Domain.Entities
+﻿using Newtonsoft.Json.Linq;
+
+namespace Ingresso.Domain.Entities
 {
     public class User
     {
@@ -15,6 +17,11 @@
 
         public User()
         {
+        }
+
+        public User(string? passwordHash)
+        {
+            PasswordHash = passwordHash;
         }
 
         public User(Guid id, string? name)
@@ -36,6 +43,15 @@
             PasswordHash = passwordHash;
         }
 
+        public User(Guid id, string? email, string? cpf, string? passwordHash, string? name)
+        {
+            Id = id;
+            Email = email;
+            Cpf = cpf;
+            PasswordHash = passwordHash;
+            Name = name;
+        }
+
         public void ValidatorToken(string token)
         {
             DomainValidationException.When(string.IsNullOrEmpty(token), "Token not generated");
@@ -45,6 +61,18 @@
         public void ConfirmedEmail(int value)
         {
             ConfirmEmail = value;
+        }
+
+        public void ChangeNameUser(string name)
+        {
+            DomainValidationException.When(name.Length <= 0, "name user deve ser maior que zero");
+            Name = name;
+        }
+
+        public void ChangePasswordHash(string passwordHash)
+        {
+            DomainValidationException.When(passwordHash.Length <= 0, "PasswordHash user deve ser maior que zero");
+            PasswordHash = passwordHash;
         }
     }
 }

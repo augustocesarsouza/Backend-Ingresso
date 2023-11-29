@@ -2,6 +2,7 @@
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Ingresso.Domain.Repositories;
+using Ingresso.Infra.Data.SendEmailUser;
 using Moq;
 
 namespace Ingresso.Application.ServicesTests.UserServiceTest
@@ -15,6 +16,7 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
         public Mock<ITokenGeneratorEmail> TokenGeneratorEmailMock { get; }
         public Mock<ITokenGeneratorCpf> TokenGeneratorCpfMock { get; }
         public Mock<IUserPermissionService> UserPermissionServiceMock { get; }
+        public Mock<ISendEmailUser> SendEmailUser { get; }
 
         public UserAuthenticationServiceConfiguration()
         {
@@ -25,6 +27,7 @@ namespace Ingresso.Application.ServicesTests.UserServiceTest
             TokenGeneratorEmailMock = new();
             TokenGeneratorCpfMock = new();
             UserPermissionServiceMock = new();
+            SendEmailUser = new();
         }
     }
 }

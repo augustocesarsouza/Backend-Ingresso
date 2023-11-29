@@ -6,6 +6,7 @@ namespace Ingresso.Application.DTOs
     {
         public int Id { get; set; }
         public DateTime? BirthDate { get; set; }
+        public string? BirthDateString { get; set; }
         public string? Gender { get; set; }
         public string? Phone { get; set; }
         public string? Cep { get; set; }

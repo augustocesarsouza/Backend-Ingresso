@@ -17,6 +17,39 @@
 
         public Guid UserId { get; private set; }
         public User? User { get; private set; }
-       
+
+        public AdditionalInfoUser(DateTime? birthDate, string? gender, string? phone, string? cep, string? logradouro, string? numero, string? complemento, string? referencia, string? bairro, string? estado, string? cidade)
+        {
+            BirthDate = birthDate;
+            Gender = gender;
+            Phone = phone;
+            Cep = cep;
+            Logradouro = logradouro;
+            Numero = numero;
+            Complemento = complemento;
+            Referencia = referencia;
+            Bairro = bairro;
+            Estado = estado;
+            Cidade = cidade;
+        }
+
+        public void AddData(
+            DateTime? birthDate, string? gender, string? phone, string? cep,
+            string? logradouro, string? numero, string? complemento, string? referencia, 
+            string? bairro, string? estado, string? cidade, Guid userId)
+        {
+            BirthDate = birthDate;
+            Gender = gender;
+            Phone = phone;
+            Cep = cep;
+            Logradouro = logradouro;
+            Numero = numero;
+            Complemento = complemento;
+            Referencia = referencia;
+            Bairro = bairro;
+            Estado = estado;
+            Cidade = cidade;
+            UserId = userId;
+        }
     }
 }
