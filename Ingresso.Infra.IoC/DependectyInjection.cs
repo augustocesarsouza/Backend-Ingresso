@@ -1,11 +1,10 @@
-﻿using Hangfire;
-using Ingresso.Application.DTOs.Validations.Interfaces;
+﻿using Ingresso.Application.DTOs.Validations.Interfaces;
 using Ingresso.Application.DTOs.Validations.UserValidator;
 using Ingresso.Application.Mappings;
 using Ingresso.Application.Services;
 using Ingresso.Application.Services.Interfaces;
-using Ingresso.Infra.Data.UtulityExternal;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
+using Ingresso.Infra.Data.UtilityExternal;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 using Ingresso.Domain.Authentication;
 using Ingresso.Domain.Repositories;
 using Ingresso.Infra.Data.Authentication;
@@ -46,7 +45,14 @@ namespace Ingresso.Infra.IoC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
             services.AddScoped<IAdditionalInfoUserRepository, AdditionalInfoUserRepository>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieTheaterRepository, MovieTheaterRepository>();
             services.AddScoped<ITokenGeneratorEmail, TokenGeneratorEmail>();
+            services.AddScoped<ITheatreRepository, TheatreRepository>();
+            services.AddScoped<IRegionTheatreRepository, RegionTheatreRepository>();
+            services.AddScoped<IRegionRepository, RegionRepository>();
+            services.AddScoped<ICinemaRepository, CinemaRepository>();
+            services.AddScoped<ICinemaMovieRepository, CinemaMovieRepository>();
             services.AddScoped<ITokenGeneratorCpf, TokenGeneratorCpf>();
             services.AddScoped<ISendEmailUser, SendEmailUser>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -61,15 +67,28 @@ namespace Ingresso.Infra.IoC
             services.AddScoped<IUserPermissionService, UserPermissionService>();
             services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
             services.AddScoped<IUserConfirmationService, UserConfirmationService>();
+            services.AddScoped<IMovieTheaterService, MovieTheaterService>();
+            services.AddScoped<ITheatreService, TheatreService>();
             services.AddScoped<IAdditionalInfoUserService, AdditionalInfoUserService>();
+            services.AddScoped<IRegionTheatreService, RegionTheatreService>();
             services.AddScoped<ISendEmailBrevo, SendEmailBrevo>();
             services.AddScoped<ITransactionalEmailApiUti, TransactionalEmailApiUti>();
             services.AddScoped<ITransactionalEmailsApi, TransactionalEmailsApi>();
             services.AddScoped<IPasswordHasherWrapper, PasswordHasherWrapper>();
+            services.AddScoped<IMovieService, MovieService>();
+            services.AddScoped<IRegionService, RegionService>();
+            services.AddScoped<ICinemaService, CinemaService>();
+            services.AddScoped<ICinemaMovieService, CinemaMovieService>();
             services.AddScoped<ICacheRedisUti, CacheRedisUti>();
+            services.AddScoped<ICloudinaryUti, ClodinaryUti>();
             services.AddScoped<IUserCreateDTOValidator, UserCreateDTOValidator>();
+            services.AddScoped<ICinemaDTOValidator, CinemaDTOValidator>();
             services.AddScoped<IAdditionalInfoUserDTOValidator, AdditionalInfoUserDTOValidator>();
+            services.AddScoped<ICinemaMovieDTOValidator, CinemaMovieDTOValidator>();
+            services.AddScoped<IMovieDTOValidator, MovieDTOValidator>();
+            services.AddScoped<ITheatreDTOValidator, TheatreDTOValidator>();
             return services;
         }
     }
 }
+

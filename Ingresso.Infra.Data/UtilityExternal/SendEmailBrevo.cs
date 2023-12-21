@@ -1,12 +1,10 @@
 ﻿using Ingresso.Domain.Entities;
 using Ingresso.Domain.InfoErrors;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
-using sib_api_v3_sdk.Api;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 using sib_api_v3_sdk.Client;
 using sib_api_v3_sdk.Model;
-using System;
 
-namespace Ingresso.Infra.Data.UtulityExternal
+namespace Ingresso.Infra.Data.UtilityExternal
 {
     public class SendEmailBrevo : ISendEmailBrevo
     {

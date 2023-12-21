@@ -6,11 +6,19 @@ using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Ingresso.Application.Services;
 using Ingresso.Domain.Authentication;
+using Ingresso.Api.ControllersInterface;
 
 namespace Ingresso.Api.ControllersTests
 {
     public class UserControllerTests
     {
+        private Mock<IBaseController> _baseController { get; }
+
+        public UserControllerTests()
+        {
+            _baseController = new();
+        }
+
         [Fact]
         public async void Should_Successfully_Create_New_User()
         {
@@ -19,7 +27,7 @@ namespace Ingresso.Api.ControllersTests
             var userAuth = new Mock<IUserAuthenticationService>();
             var userConfirm = new Mock<IUserConfirmationService>();
 
-            var userController = new UserController(currentUser.Object, userManagement.Object, userAuth.Object, userConfirm.Object);
+            var userController = new UserController(currentUser.Object, userManagement.Object, userAuth.Object, userConfirm.Object, _baseController.Object);
             var userDto = new UserDto
             {
                 Name = "Test",
@@ -33,7 +41,7 @@ namespace Ingresso.Api.ControllersTests
 
             var result = await userController.CreateAsync(userDto);
 
-            var okResult = Assert.IsType<OkObjectResult>(result); 
+            var okResult = Assert.IsType<OkObjectResult>(result);
 
             Assert.Equal(200, okResult.StatusCode);
         }
@@ -46,7 +54,7 @@ namespace Ingresso.Api.ControllersTests
             var userAuth = new Mock<IUserAuthenticationService>();
             var userConfirm = new Mock<IUserConfirmationService>();
 
-            var userController = new UserController(currentUser.Object, userManagement.Object, userAuth.Object, userConfirm.Object);
+            var userController = new UserController(currentUser.Object, userManagement.Object, userAuth.Object, userConfirm.Object, _baseController.Object);
 
             userManagement.Setup(ser => ser.CreateAsync(It.IsAny<UserDto>())).ReturnsAsync(ResultService.Fail<UserDto>("error"));
 

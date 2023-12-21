@@ -1,4 +1,6 @@
 using Ingresso.Api.Authentication;
+using Ingresso.Api.Controllers;
+using Ingresso.Api.ControllersInterface;
 using Ingresso.Application.MyHubs;
 using Ingresso.Domain.Authentication;
 using Ingresso.Infra.IoC;
@@ -20,6 +22,7 @@ namespace Ingresso.Api
             builder.Services.AddControllers();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+            builder.Services.AddScoped<IBaseController, BaseController>();
 
             builder.Services.AddMvc().AddJsonOptions(options =>
             {
@@ -30,7 +33,7 @@ namespace Ingresso.Api
             {
                 options.AddPolicy("CorsPolity", builder =>
                 {
-                    builder.WithOrigins("http://localhost:5000")
+                    builder.WithOrigins("http://localhost:5400")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

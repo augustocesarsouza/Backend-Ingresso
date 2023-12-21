@@ -1,12 +1,12 @@
 ﻿using Ingresso.Domain.Entities;
 using Ingresso.Domain.InfoErrors;
-using Ingresso.Infra.Data.UtulityExternal;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
+using Ingresso.Infra.Data.UtilityExternal;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 using Moq;
 using sib_api_v3_sdk.Model;
 using Xunit;
 
-namespace Ingresso.Infra.Data.UtulityExternalTest
+namespace Ingresso.Infra.Data.UtilityExternalTest
 {
     public class SendEmailBrevoTest
     {

@@ -1,7 +1,7 @@
 ﻿using Ingresso.Domain.Entities;
 using Ingresso.Domain.InfoErrors;
 
-namespace Ingresso.Infra.Data.UtulityExternal.Interface
+namespace Ingresso.Infra.Data.UtilityExternal.Interface
 {
     public interface ISendEmailBrevo
     {

@@ -2,7 +2,6 @@
 using Ingresso.Application.DTOs;
 using Ingresso.Application.Services;
 using Ingresso.Domain.Entities;
-using Ingresso.Domain.InfoErrors;
 using Moq;
 using System.ComponentModel;
 using Xunit;

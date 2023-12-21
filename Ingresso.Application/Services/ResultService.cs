@@ -30,14 +30,17 @@ namespace Ingresso.Application.Services
 
         public static ResultService Fail(string message) => new ResultService { IsSucess = false, Message = message };
         public static ResultService<T> Fail<T>(string message) => new ResultService<T> { IsSucess = false, Message = message };
+        public static ResultService<T> Fail<T>(T? data) => new ResultService<T> { IsSucess = false, Data = data };
 
         public static ResultService Ok(string message) => new ResultService { IsSucess = true, Message = message };
         public static ResultService<T> Ok<T>(T data) => new ResultService<T> { IsSucess = true, Data = data };
+        public static ResultService<T> Ok<T>(string message) => new ResultService<T> { IsSucess = true, Message = message };
 
     }
 
     public class ResultService<T> : ResultService
     {
         public T? Data { get; set; }
+        //public string? Message { get; set; }
     }
 }

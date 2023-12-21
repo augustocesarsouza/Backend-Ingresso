@@ -22,7 +22,6 @@ namespace Ingresso.Application.Services
         private readonly IPasswordHasherWrapper _passwordHasher;
         private readonly ISendEmailUser _sendEmailUser;
         private readonly static CodeRandomDictionary _codeRandomDictionary = new();
-        private static int RandomCode = 0;
 
         public UserAuthenticationService(
             IUserRepository userRepository, ITokenGeneratorEmail tokenGeneratorEmail, ITokenGeneratorCpf tokenGeneratorCpf,

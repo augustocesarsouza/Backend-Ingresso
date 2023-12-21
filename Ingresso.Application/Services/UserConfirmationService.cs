@@ -1,6 +1,6 @@
 ﻿using Ingresso.Application.DTOs;
 using Ingresso.Application.Services.Interfaces;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 using Ingresso.Domain.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 

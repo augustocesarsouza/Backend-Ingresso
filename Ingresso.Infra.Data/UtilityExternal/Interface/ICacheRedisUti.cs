@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 
-namespace Ingresso.Infra.Data.UtulityExternal.Interface
+namespace Ingresso.Infra.Data.UtilityExternal.Interface
 {
     public interface ICacheRedisUti
     {

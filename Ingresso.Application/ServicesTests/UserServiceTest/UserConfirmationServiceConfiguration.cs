@@ -1,6 +1,5 @@
-﻿using Ingresso.Infra.Data.UtulityExternal.Interface;
+﻿using Ingresso.Infra.Data.UtilityExternal.Interface;
 using Ingresso.Domain.Repositories;
-using Ingresso.Infra.Data.Repositories;
 using Moq;
 
 namespace Ingresso.Application.ServicesTests.UserServiceTest

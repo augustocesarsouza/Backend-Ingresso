@@ -2,7 +2,7 @@
 using Ingresso.Domain.Repositories;
 using Ingresso.Infra.Data.Context;
 using Ingresso.Infra.Data.Persistense;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;

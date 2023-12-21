@@ -6,7 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using Ingresso.Domain.InfoErrors;
 using Ingresso.Domain.Entities;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 
 namespace Ingresso.Infra.Data.SendEmailUser
 {

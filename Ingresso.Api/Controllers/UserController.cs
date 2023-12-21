@@ -1,6 +1,5 @@
-﻿using Ingresso.Application.CodeRandomUser;
+﻿using Ingresso.Api.ControllersInterface;
 using Ingresso.Application.DTOs;
-using Ingresso.Application.Services;
 using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -9,22 +8,25 @@ using Microsoft.AspNetCore.Mvc;
 namespace Ingresso.Api.Controllers
 {
     [ApiController]
-    public class UserController : BaseController
+    public class UserController : ControllerBase
     {
         private readonly IUserManagementService _userManagementService;
         private readonly IUserAuthenticationService _userAuthenticationService;
         private readonly IUserConfirmationService _userConfirmationService;
         private readonly ICurrentUser _currentUser;
+        private readonly IBaseController _baseController;
 
         public UserController(
             ICurrentUser currentUser, IUserManagementService userManagementService,
-            IUserAuthenticationService userAuthenticationService, IUserConfirmationService userConfirmationService
+            IUserAuthenticationService userAuthenticationService, IUserConfirmationService userConfirmationService,
+            IBaseController baseController
             )
         {
             _currentUser = currentUser;
             _userManagementService = userManagementService;
             _userAuthenticationService = userAuthenticationService;
             _userConfirmationService = userConfirmationService;
+            _baseController = baseController;
         }
 
         [HttpGet]
@@ -42,9 +44,9 @@ namespace Ingresso.Api.Controllers
         [HttpGet("v1/user/getUsers")]
         public async Task<IActionResult> GetUsers()
         {
-            var userAuth = Validator(_currentUser);
+            var userAuth = _baseController.Validator(_currentUser);
             if (userAuth == null)
-                return Forbidden();
+                return _baseController.Forbidden();
 
             var results = await _userManagementService.GetUsers();
 
@@ -102,9 +104,9 @@ namespace Ingresso.Api.Controllers
         [HttpPut("v1/user/update-user/{password}")]
         public async Task<IActionResult> UpdateAsync([FromBody] UserDto userDto, string password)
         {
-            var userAuth = Validator(_currentUser);
+            var userAuth = _baseController.Validator(_currentUser);
             if (userAuth == null)
-                return Forbidden();
+                return _baseController.Forbidden();
 
             var result = await _userManagementService.UpdateUser(userDto, password);
             if (result.IsSucess)

@@ -1,7 +1,7 @@
-﻿using Ingresso.Infra.Data.UtulityExternal.Interface;
+﻿using Ingresso.Infra.Data.UtilityExternal.Interface;
 using Microsoft.Extensions.Caching.Distributed;
 
-namespace Ingresso.Infra.Data.UtulityExternal
+namespace Ingresso.Infra.Data.UtilityExternal
 {
     public class CacheRedisUti : ICacheRedisUti
     {

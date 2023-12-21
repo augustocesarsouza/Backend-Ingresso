@@ -1,9 +1,9 @@
 ﻿using Ingresso.Domain.InfoErrors;
-using Ingresso.Infra.Data.UtulityExternal.Interface;
+using Ingresso.Infra.Data.UtilityExternal.Interface;
 using sib_api_v3_sdk.Api;
 using sib_api_v3_sdk.Model;
 
-namespace Ingresso.Infra.Data.UtulityExternal
+namespace Ingresso.Infra.Data.UtilityExternal
 {
     public class TransactionalEmailApiUti : ITransactionalEmailApiUti
     {

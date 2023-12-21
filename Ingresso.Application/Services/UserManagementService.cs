@@ -5,7 +5,7 @@ using Ingresso.Application.Services.Interfaces;
 using Ingresso.Domain.Entities;
 using Ingresso.Domain.Repositories;
 using Ingresso.Infra.Data.SendEmailUser;
-using System.Globalization;
+
 
 namespace Ingresso.Application.Services
 {

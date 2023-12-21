@@ -1,11 +1,12 @@
 ﻿using Ingresso.Application.DTOs;
 using Ingresso.Domain.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Ingresso.Api.ControllersInterface;
 
 namespace Ingresso.Api.Controllers
 {
     [ApiController]
-    public class BaseController : ControllerBase
+    public class BaseController : IBaseController
     {
         [NonAction]
         public UserAuthDTO? Validator(ICurrentUser? currentUser)

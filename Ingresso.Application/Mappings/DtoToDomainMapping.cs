@@ -12,6 +12,13 @@ namespace Ingresso.Application.Mappings
             CreateMap<PermissionDTO, Permission>();
             CreateMap<UserPermissionDTO, UserPermission>(); 
             CreateMap<AdditionalInfoUserDTO, AdditionalInfoUser>();
+            CreateMap<MovieDTO, Movie>();
+            CreateMap<MovieTheaterDTO, MovieTheater>();
+            CreateMap<TheatreDTO, Theatre>();
+            CreateMap<RegionDTO, Region>();
+            CreateMap<CinemaDTO, Cinema>();
+            CreateMap<CinemaMovieDTO, CinemaMovie>()
+                .ForMember(dest => dest.Cinema, opt => opt.MapFrom(src => src.CinemaDTO));
         }
     }
 }
