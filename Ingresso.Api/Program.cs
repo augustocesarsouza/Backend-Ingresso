@@ -33,7 +33,7 @@ namespace Ingresso.Api
             {
                 options.AddPolicy("CorsPolity", builder =>
                 {
-                    builder.WithOrigins("http://localhost:5400")
+                    builder.WithOrigins("http://localhost:6400")
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials();

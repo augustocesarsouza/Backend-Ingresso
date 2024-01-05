@@ -18,6 +18,8 @@ namespace Ingresso.Infra.Data.Context
             Regions = Set<Region>();
             Cinemas = Set<Cinema>();
             CinemaMovies = Set<CinemaMovie>();
+            FormOfPayments = Set<FormOfPayment>();
+            AdditionalFoodMovie = Set<AdditionalFoodMovie>();
         }
 
         public DbSet<User> Users { get; private set; }
@@ -31,6 +33,8 @@ namespace Ingresso.Infra.Data.Context
         public DbSet<Region> Regions { get; private set; }
         public DbSet<Cinema> Cinemas { get; private set; }
         public DbSet<CinemaMovie> CinemaMovies { get; private set; }
+        public DbSet<FormOfPayment> FormOfPayments { get; private set; }
+        public DbSet<AdditionalFoodMovie> AdditionalFoodMovie { get; private set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

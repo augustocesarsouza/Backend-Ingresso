@@ -19,6 +19,8 @@ namespace Ingresso.Application.Mappings
             CreateMap<CinemaDTO, Cinema>();
             CreateMap<CinemaMovieDTO, CinemaMovie>()
                 .ForMember(dest => dest.Cinema, opt => opt.MapFrom(src => src.CinemaDTO));
+            CreateMap<FormOfPaymentDTO, FormOfPayment>();
+            CreateMap<AdditionalFoodMovieDTO, AdditionalFoodMovie>();
         }
     }
 }

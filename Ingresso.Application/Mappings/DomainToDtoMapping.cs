@@ -31,13 +31,24 @@ namespace Ingresso.Application.Mappings
             CreateMap<Theatre, TheatreDTO>();
             CreateMap<Region, RegionDTO>();
             CreateMap<Cinema, CinemaDTO>();
+
             CreateMap<CinemaMovie, CinemaMovieDTO>()
                 .ForMember(dest => dest.CinemaDTO, opt => opt.MapFrom(src => src.Cinema))
                 .ForMember(x => x.CinemaId, opt => opt.Ignore())
                 .ForMember(x => x.Id, opt => opt.Ignore())
                 .ForMember(x => x.MovieId, opt => opt.Ignore())
                 .ForMember(x => x.RegionId, opt => opt.Ignore());
-            
+
+            CreateMap<FormOfPayment, FormOfPaymentDTO>()
+                .ForMember(dest => dest.MovieDTO, opt => opt.MapFrom(src => src.Movie))
+                .ForMember(x => x.Id, opt => opt.Ignore())
+                .ForMember(x => x.MovieId, opt => opt.Ignore());
+
+            CreateMap<AdditionalFoodMovie, AdditionalFoodMovieDTO>()
+                .ForMember(dest => dest.MovieDTO, opt => opt.MapFrom(src => src.Movie))
+                .ForMember(x => x.Id, opt => opt.Ignore())
+                .ForMember(x => x.MovieId, opt => opt.Ignore());
+
         }
     }
 }

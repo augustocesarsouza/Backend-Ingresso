@@ -52,7 +52,9 @@ namespace Ingresso.Infra.IoC
             services.AddScoped<IRegionTheatreRepository, RegionTheatreRepository>();
             services.AddScoped<IRegionRepository, RegionRepository>();
             services.AddScoped<ICinemaRepository, CinemaRepository>();
+            services.AddScoped<IAdditionalFoodMovieRepository, AdditionalFoodMovieRepository>();
             services.AddScoped<ICinemaMovieRepository, CinemaMovieRepository>();
+            services.AddScoped<IFormOfPaymentRepository, FormOfPaymentRepository>();
             services.AddScoped<ITokenGeneratorCpf, TokenGeneratorCpf>();
             services.AddScoped<ISendEmailUser, SendEmailUser>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -79,6 +81,8 @@ namespace Ingresso.Infra.IoC
             services.AddScoped<IRegionService, RegionService>();
             services.AddScoped<ICinemaService, CinemaService>();
             services.AddScoped<ICinemaMovieService, CinemaMovieService>();
+            services.AddScoped<IFormOfPaymentService, FormOfPaymentService>();
+            services.AddScoped<IAdditionalFoodMovieService, AdditionalFoodMovieService>();
             services.AddScoped<ICacheRedisUti, CacheRedisUti>();
             services.AddScoped<ICloudinaryUti, ClodinaryUti>();
             services.AddScoped<IUserCreateDTOValidator, UserCreateDTOValidator>();
@@ -87,6 +91,8 @@ namespace Ingresso.Infra.IoC
             services.AddScoped<ICinemaMovieDTOValidator, CinemaMovieDTOValidator>();
             services.AddScoped<IMovieDTOValidator, MovieDTOValidator>();
             services.AddScoped<ITheatreDTOValidator, TheatreDTOValidator>();
+            services.AddScoped<IFormOfPaymentDTOValidator, FormOfPaymentDTOValidator>();
+            services.AddScoped<IAdditionalFoodMovieDTOValidator, AdditionalFoodMovieDTOValidator>();
             return services;
         }
     }
